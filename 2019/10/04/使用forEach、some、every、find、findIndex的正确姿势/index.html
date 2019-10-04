@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="Fernweh Nancy&#39;s Blog">
 <meta property="og:description" content="一旦遇到需要遍历循环的时候，我们就会用到for语句或者forEach。我更喜欢用forEach，因为这代码写起来简洁多了，然而某一天遇到一个奇怪的问题，比如说判断某一个对象是否在一个数组里，如果在则直接结束循环。我用类似for语句的思维去写用forEach的代码，代码是这样写： 123456789101112131415function foreachArr(arr,id)&amp;#123;    ar">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4248645-015b611f5c7dbbb0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600">
-<meta property="og:updated_time" content="2019-10-04T15:03:58.677Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/04/使用forEach、some、every、find、findIndex的正确姿势/timg.jpg">
+<meta property="og:updated_time" content="2019-10-04T15:07:50.003Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用forEach、some、every、find、findIndex的正确姿势">
 <meta name="twitter:description" content="一旦遇到需要遍历循环的时候，我们就会用到for语句或者forEach。我更喜欢用forEach，因为这代码写起来简洁多了，然而某一天遇到一个奇怪的问题，比如说判断某一个对象是否在一个数组里，如果在则直接结束循环。我用类似for语句的思维去写用forEach的代码，代码是这样写： 123456789101112131415function foreachArr(arr,id)&amp;#123;    ar">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4248645-015b611f5c7dbbb0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/04/使用forEach、some、every、find、findIndex的正确姿势/timg.jpg">
 
 
 
@@ -357,7 +357,8 @@
 <p>但如果我想要返回元素的下标，这样就能根据下标来进行操作的，这就需要用到<font color="#dd0000"><strong>findIndex</strong></font>，代码是这样：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let objIndex=person.findIndex(item=&gt;&#123;</span><br><span class="line">    return item.id==2;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(objIndex);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://upload-images.jianshu.io/upload_images/4248645-015b611f5c7dbbb0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="timg.jpg"></p>
+<img src="/2019/10/04/使用forEach、some、every、find、findIndex的正确姿势/timg.jpg">
+
 <p>cool! 短小精悍！让我们一起抛弃for语句臃肿的代码，多撸some，every，find，findIndex。如果非要兼容旧版本的IE，那打扰了～</p>
 
       

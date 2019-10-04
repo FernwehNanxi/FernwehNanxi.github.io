@@ -252,6 +252,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/04/使用forEach、some、every、find、findIndex的正确姿势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fernweh Nancy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fernweh Nancy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/04/使用forEach、some、every、find、findIndex的正确姿势/" itemprop="url">使用forEach、some、every、find、findIndex的正确姿势</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-04T21:17:35+08:00">
+                2019-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一旦遇到需要遍历循环的时候，我们就会用到for语句或者forEach。我更喜欢用forEach，因为这代码写起来简洁多了，然而某一天遇到一个奇怪的问题，比如说判断某一个对象是否在一个数组里，如果在则直接结束循环。我用类似for语句的思维去写用forEach的代码，代码是这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function foreachArr(arr,id)&#123;</span><br><span class="line">    arr.forEach(item=&gt;&#123;</span><br><span class="line">        console.log(&apos;id:&apos;+item.id);</span><br><span class="line">        if(item.id==id)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person=[&#123;id:1,name:&apos;Nancy&apos;,age:24&#125;,&#123;id:2,name:&apos;Carol&apos;,age:26&#125;,&#123;id:3,name:&apos;Lucy&apos;,age:20&#125;];</span><br><span class="line">foreachArr(person,2);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">[Log] id:1</span><br><span class="line">[Log] id:2</span><br><span class="line">[Log] id:3</span><br></pre></td></tr></table></figure>
+
+<p>咦？不是应该到 id:2 就结束了，怎么还有 id:3? 我试了写for语句，看看是怎样的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function forinArr(arr,id)&#123;</span><br><span class="line">    for(let i in arr)&#123;</span><br><span class="line">        console.log(&apos;id:&apos;+arr[i].id);</span><br><span class="line">        if(arr[i].id==id)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">forinArr(person,2);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">[Log] id:1</span><br><span class="line">[Log] id:2</span><br></pre></td></tr></table></figure>
+
+<p>这输出的结果符合我的要求，没想到forEach和for语句还是有很大的区别，然而我对forEach多了一份陌生感，但我还是那么喜欢你，想要深入了解你，所以就去网上查找。然后MDN关于forEach特别提到注意的点：</p>
+<blockquote>
+<p>注意： 没有办法中止或者跳出 forEach() 循环，除了抛出一个异常。如果你需要这样，使用 forEach() 方法是错误的。</p>
+</blockquote>
+<p>哇，真是好尴尬了哦，认识你这么久，却没注意到你有一个特别的地方～</p>
+<p>难道只能用for语句来实现，并不，数组还有很多其他的方法，比如<strong>some，every，find，findIndex</strong>，get到这些，妈妈就再也不用担心我打键盘打得麻了～</p>
+<p>需求还是上面的那个，如果某个对象是否在数组，如果在就结束循环，这就用到<font color="#dd0000"><strong>some</strong></font>，先看看MDN的说法：</p>
+<blockquote>
+<p>some() 方法测试数组中是不是有元素通过了被提供的函数测试。它返回的是一个Boolean类型的值。</p>
+</blockquote>
+<p>就是说如果有一个元素满足条件，则返回true，否则返回false</p>
+<p>下面我们来康康用some怎么写的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let isInArr=person.some(item=&gt;&#123;</span><br><span class="line">    console.log(&apos;id:&apos;+item.id);</span><br><span class="line">    return item.id==2;</span><br><span class="line">&#125;)</span><br><span class="line">//打印出来的结果：</span><br><span class="line">[Log] id:1</span><br><span class="line">[Log] id:2</span><br><span class="line">//isInArr：true</span><br></pre></td></tr></table></figure>
+
+<p>看吧，只要符合条件，就能提前结束循环的，some代码多么短小精悍，所以当遇到有类似这个需求的，记得多用some，保证你爽歪歪～</p>
+<p>然后我们再来康康 <font color="#dd0000"><strong>every</strong></font>，MDN是这样介绍：</p>
+<blockquote>
+<p>every() 方法测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔值。</p>
+</blockquote>
+<p>every和上面some差不多，但区别在于，some只要搜索一个符合条件的元素，则直接返回true，而every比较严格，每一个都要符合条件的…</p>
+<p>比如说一个篮球队每个人身高必须170以上，否则不能参加比赛（false），代码是这样写的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let members=[&#123;id:1,name:&apos;Nancy&apos;,height:176&#125;,&#123;id:2,name:&apos;Carol&apos;,height:180&#125;,&#123;id:3,name:&apos;Lucy&apos;,height:175&#125;];</span><br><span class="line"></span><br><span class="line">let isHeight=members.every(item=&gt;&#123;</span><br><span class="line">    return item.height&gt;=170;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(&apos;isHeight:&apos;+isHeight);</span><br><span class="line"></span><br><span class="line">//打印出来的结果：</span><br><span class="line">isHeight:true</span><br></pre></td></tr></table></figure>
+
+<p>然后我们再来康康 <font color="#dd0000"><strong>find</strong></font>，这个与上面两个区别在于，这个会返回元素的值，不符合的则返回 undefined，回到第一个需求，如果某个id是否在数组，并且想要知道该元素的具体信息，并且结束循环，这就用到find，代码是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let obj=person.find(item=&gt;&#123;</span><br><span class="line">    return item.id==2;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(obj);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">&#123;id: 2, name: &quot;Carol&quot;, age: 26&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但如果我想要返回元素的下标，这样就能根据下标来进行操作的，这就需要用到<font color="#dd0000"><strong>findIndex</strong></font>，代码是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let objIndex=person.findIndex(item=&gt;&#123;</span><br><span class="line">    return item.id==2;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(objIndex);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/4248645-015b611f5c7dbbb0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="timg.jpg"></p>
+<p>cool! 短小精悍！让我们一起抛弃for语句臃肿的代码，多撸some，every，find，findIndex。如果非要兼容旧版本的IE，那打扰了～</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/13/callapplybind/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -607,7 +763,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

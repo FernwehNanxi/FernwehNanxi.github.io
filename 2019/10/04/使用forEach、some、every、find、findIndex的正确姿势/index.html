@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一旦遇到需要遍历循环的时候，我们就会用到for语句或者forEach。我更喜欢用forEach，因为这代码写起来简洁多了，然而某一天遇到一个奇怪的问题，比如说判断某一个对象是否在一个数组里，如果在则直接结束循环。我用类似for语句的思维去写用forEach的代码，代码是这样写： 123456789101112131415function foreachArr(arr,id)&amp;#123;    ar">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用forEach、some、every、find、findIndex的正确姿势">
+<meta property="og:url" content="http://yoursite.com/2019/10/04/使用forEach、some、every、find、findIndex的正确姿势/index.html">
+<meta property="og:site_name" content="Fernweh Nancy&#39;s Blog">
+<meta property="og:description" content="一旦遇到需要遍历循环的时候，我们就会用到for语句或者forEach。我更喜欢用forEach，因为这代码写起来简洁多了，然而某一天遇到一个奇怪的问题，比如说判断某一个对象是否在一个数组里，如果在则直接结束循环。我用类似for语句的思维去写用forEach的代码，代码是这样写： 123456789101112131415function foreachArr(arr,id)&amp;#123;    ar">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4248645-015b611f5c7dbbb0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600">
+<meta property="og:updated_time" content="2019-10-04T15:03:58.677Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用forEach、some、every、find、findIndex的正确姿势">
+<meta name="twitter:description" content="一旦遇到需要遍历循环的时候，我们就会用到for语句或者forEach。我更喜欢用forEach，因为这代码写起来简洁多了，然而某一天遇到一个奇怪的问题，比如说判断某一个对象是否在一个数组里，如果在则直接结束循环。我用类似for语句的思维去写用forEach的代码，代码是这样写： 123456789101112131415function foreachArr(arr,id)&amp;#123;    ar">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4248645-015b611f5c7dbbb0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Fernweh Nancy'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/04/使用forEach、some、every、find、findIndex的正确姿势/">
+
+
+
+
+
+  <title>使用forEach、some、every、find、findIndex的正确姿势 | Fernweh Nancy's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fernweh Nancy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/04/使用forEach、some、every、find、findIndex的正确姿势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fernweh Nancy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fernweh Nancy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用forEach、some、every、find、findIndex的正确姿势</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-04T21:17:35+08:00">
+                2019-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一旦遇到需要遍历循环的时候，我们就会用到for语句或者forEach。我更喜欢用forEach，因为这代码写起来简洁多了，然而某一天遇到一个奇怪的问题，比如说判断某一个对象是否在一个数组里，如果在则直接结束循环。我用类似for语句的思维去写用forEach的代码，代码是这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function foreachArr(arr,id)&#123;</span><br><span class="line">    arr.forEach(item=&gt;&#123;</span><br><span class="line">        console.log(&apos;id:&apos;+item.id);</span><br><span class="line">        if(item.id==id)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person=[&#123;id:1,name:&apos;Nancy&apos;,age:24&#125;,&#123;id:2,name:&apos;Carol&apos;,age:26&#125;,&#123;id:3,name:&apos;Lucy&apos;,age:20&#125;];</span><br><span class="line">foreachArr(person,2);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">[Log] id:1</span><br><span class="line">[Log] id:2</span><br><span class="line">[Log] id:3</span><br></pre></td></tr></table></figure>
+
+<p>咦？不是应该到 id:2 就结束了，怎么还有 id:3? 我试了写for语句，看看是怎样的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function forinArr(arr,id)&#123;</span><br><span class="line">    for(let i in arr)&#123;</span><br><span class="line">        console.log(&apos;id:&apos;+arr[i].id);</span><br><span class="line">        if(arr[i].id==id)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">forinArr(person,2);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">[Log] id:1</span><br><span class="line">[Log] id:2</span><br></pre></td></tr></table></figure>
+
+<p>这输出的结果符合我的要求，没想到forEach和for语句还是有很大的区别，然而我对forEach多了一份陌生感，但我还是那么喜欢你，想要深入了解你，所以就去网上查找。然后MDN关于forEach特别提到注意的点：</p>
+<blockquote>
+<p>注意： 没有办法中止或者跳出 forEach() 循环，除了抛出一个异常。如果你需要这样，使用 forEach() 方法是错误的。</p>
+</blockquote>
+<p>哇，真是好尴尬了哦，认识你这么久，却没注意到你有一个特别的地方～</p>
+<p>难道只能用for语句来实现，并不，数组还有很多其他的方法，比如<strong>some，every，find，findIndex</strong>，get到这些，妈妈就再也不用担心我打键盘打得麻了～</p>
+<p>需求还是上面的那个，如果某个对象是否在数组，如果在就结束循环，这就用到<font color="#dd0000"><strong>some</strong></font>，先看看MDN的说法：</p>
+<blockquote>
+<p>some() 方法测试数组中是不是有元素通过了被提供的函数测试。它返回的是一个Boolean类型的值。</p>
+</blockquote>
+<p>就是说如果有一个元素满足条件，则返回true，否则返回false</p>
+<p>下面我们来康康用some怎么写的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let isInArr=person.some(item=&gt;&#123;</span><br><span class="line">    console.log(&apos;id:&apos;+item.id);</span><br><span class="line">    return item.id==2;</span><br><span class="line">&#125;)</span><br><span class="line">//打印出来的结果：</span><br><span class="line">[Log] id:1</span><br><span class="line">[Log] id:2</span><br><span class="line">//isInArr：true</span><br></pre></td></tr></table></figure>
+
+<p>看吧，只要符合条件，就能提前结束循环的，some代码多么短小精悍，所以当遇到有类似这个需求的，记得多用some，保证你爽歪歪～</p>
+<p>然后我们再来康康 <font color="#dd0000"><strong>every</strong></font>，MDN是这样介绍：</p>
+<blockquote>
+<p>every() 方法测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔值。</p>
+</blockquote>
+<p>every和上面some差不多，但区别在于，some只要搜索一个符合条件的元素，则直接返回true，而every比较严格，每一个都要符合条件的…</p>
+<p>比如说一个篮球队每个人身高必须170以上，否则不能参加比赛（false），代码是这样写的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let members=[&#123;id:1,name:&apos;Nancy&apos;,height:176&#125;,&#123;id:2,name:&apos;Carol&apos;,height:180&#125;,&#123;id:3,name:&apos;Lucy&apos;,height:175&#125;];</span><br><span class="line"></span><br><span class="line">let isHeight=members.every(item=&gt;&#123;</span><br><span class="line">    return item.height&gt;=170;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(&apos;isHeight:&apos;+isHeight);</span><br><span class="line"></span><br><span class="line">//打印出来的结果：</span><br><span class="line">isHeight:true</span><br></pre></td></tr></table></figure>
+
+<p>然后我们再来康康 <font color="#dd0000"><strong>find</strong></font>，这个与上面两个区别在于，这个会返回元素的值，不符合的则返回 undefined，回到第一个需求，如果某个id是否在数组，并且想要知道该元素的具体信息，并且结束循环，这就用到find，代码是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let obj=person.find(item=&gt;&#123;</span><br><span class="line">    return item.id==2;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(obj);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">&#123;id: 2, name: &quot;Carol&quot;, age: 26&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但如果我想要返回元素的下标，这样就能根据下标来进行操作的，这就需要用到<font color="#dd0000"><strong>findIndex</strong></font>，代码是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let objIndex=person.findIndex(item=&gt;&#123;</span><br><span class="line">    return item.id==2;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(objIndex);</span><br><span class="line">//打印出来的结果：</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/4248645-015b611f5c7dbbb0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="timg.jpg"></p>
+<p>cool! 短小精悍！让我们一起抛弃for语句臃肿的代码，多撸some，every，find，findIndex。如果非要兼容旧版本的IE，那打扰了～</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/13/callapplybind/" rel="next" title="从call、apply、bind引发的思考">
+                <i class="fa fa-chevron-left"></i> 从call、apply、bind引发的思考
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.JPG" alt="Fernweh Nancy">
+            
+              <p class="site-author-name" itemprop="name">Fernweh Nancy</p>
+              <p class="site-description motion-element" itemprop="description">愿你出走半生，归来仍是少年</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FernwehNanxi" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/3880488307/profile?topnav=1&wvr=6" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/bc1ff0f17be4" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/589f209d8d6d8100587757b2" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fernweh Nancy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

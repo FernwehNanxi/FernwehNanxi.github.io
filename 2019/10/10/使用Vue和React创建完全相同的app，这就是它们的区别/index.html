@@ -91,7 +91,10 @@
 <meta property="og:image" content="https://miro.medium.com/max/2532/1*mJ-qdNqldpgae2U5oS0qDg.png">
 <meta property="og:image" content="https://miro.medium.com/max/1636/1*rahCwWEIXM7Wblk4L9ExYA.png">
 <meta property="og:image" content="https://miro.medium.com/max/2380/1*yQS8va-QXM2poiP-RqasOw.png">
-<meta property="og:updated_time" content="2019-10-11T13:42:56.513Z">
+<meta property="og:image" content="https://miro.medium.com/max/602/1*b9BjPHgneHv2K6ZYlAoe8A.png">
+<meta property="og:image" content="https://miro.medium.com/max/584/1*asy_vlGoZgtA3sAA7Dw4CA.png">
+<meta property="og:image" content="https://miro.medium.com/max/1136/1*IugEwe6Lkm5iFB-Q9zvc5w.jpeg">
+<meta property="og:updated_time" content="2019-10-13T03:49:14.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用React和React创建一款相同的app，这就是它们的区别">
 <meta name="twitter:description" content="原文链接：https://medium.com/javascript-in-plain-english/i-created-the-exact-same-app-in-react-and-vue-here-are-the-differences-e9a1ae8077fd  在工作使用Vue之后，我对它有了相当深入的了解。然而我很好奇还有什么能与Vue相比呢？那就是React。 我阅读了React文">
@@ -335,7 +338,7 @@
 <br>
 
 <p>我决定构建一个很典型的待办事项app，支持增加和删除列表。这两款app都是用默认cli构建的（React用create-react-app，Vue用vue-cli），cli是一种命令行界面的方式。</p>
-<p>无论如何，这介绍比我预期的还要长，就让咱们快速看看这两款app的样子：<br><img src="https://miro.medium.com/max/2532/1*mJ-qdNqldpgae2U5oS0qDg.png" alt="alt"></p>
+<h3 id="无论如何，这介绍比我预期的还要长，就让咱们快速看看这两款app的样子："><a href="#无论如何，这介绍比我预期的还要长，就让咱们快速看看这两款app的样子：" class="headerlink" title="无论如何，这介绍比我预期的还要长，就让咱们快速看看这两款app的样子："></a>无论如何，这介绍比我预期的还要长，就让咱们快速看看这两款app的样子：</h3><p><img src="https://miro.medium.com/max/2532/1*mJ-qdNqldpgae2U5oS0qDg.png" alt="alt"></p>
 <center>Vue vs React: The Irresistible Force meets The Immovable Object</center>
 <br>
 
@@ -350,7 +353,26 @@
 <center>Vue on the left. React on the right</center>
 <br>
 
+<p>好了，让我们深入了解吧！</p>
+<h3 id="如何改变数据？"><a href="#如何改变数据？" class="headerlink" title="如何改变数据？"></a>如何改变数据？</h3><p>首先，改变数据意味什么呢？听起来似乎有点技术含量呢。它基本上只是改变我们已存储的数据。如果我们想把一个人的名字从John改成Mark，我们就需要‘改变数据’。这就是React和Vue之间区别的关键问题。Vue本质上是创建了一个数据对象，数据能够自由地更新，而React创建了一个状态对象，需要更多的工作来更新。现在React有充分的理由执行额外的工作，我们将会对此介绍一些的，但我们还是先看下Vue和React数据的区别：<br><img src="https://miro.medium.com/max/602/1*b9BjPHgneHv2K6ZYlAoe8A.png" alt="alt"></p>
+<center>Vue数据</center>
+<br>
 
+<p><img src="https://miro.medium.com/max/584/1*asy_vlGoZgtA3sAA7Dw4CA.png" alt="alt"></p>
+<center>React数据</center>
+<br>
+
+<p>因此你能看到这两者的数据是一样的，只是它们的标记不同。用初始化数据给我们的组件是非常相似的，但正如上面提到过，在这两个框架中如何改变数据还是不同的。</p>
+<p>假设我们把一个数据的name命名为“Sunil”.</p>
+<p>在Vue中，我们通过调用<strong>this.name</strong>来引用，还能调用<strong>this.name=’John’</strong>来更新。这就改变我的名字，这不是我的名字的感觉，但就是这么发生！😅</p>
+<p>在React中，我们通过调用<strong>this.state.name</strong>来引用同样的数据，但现在关键的区别在于我们不能直接写成<strong>this.state.name=’John’</strong>，因为React的内部机制限制简单，突变的改变，所以我们应该写<strong>this.setState({name:’John’})</strong>。</p>
+<p>虽然这种实现的方式与我们在Vue中的一样，但React却需要额外的工作量，这是为什么呢？让我们看看Revanth Kumar的解释：</p>
+<blockquote>
+<p>这是因为React希望在更新状态数据时重新运行某些生命周期函数，例如：componentWillReceiveProps, shouldComponentUpdate, componentWillUpdate, render, componentDidUpdate。当你要改变数据时，它就能知道数据已更改的。如果你直接修改数据，React将不得不做更多的工作来跟踪更改和运行生命周期函数。所以为了简单些，应该需要setState来改变。</p>
+</blockquote>
+<p><img src="https://miro.medium.com/max/1136/1*IugEwe6Lkm5iFB-Q9zvc5w.jpeg" alt="alt"><br><br></p>
+<p>现在我们知道了改变数据的方式，然后让我们看看在待办事项中怎么增加新的列表。</p>
+<h3 id="如何创建新的To-Do列表？"><a href="#如何创建新的To-Do列表？" class="headerlink" title="如何创建新的To Do列表？"></a>如何创建新的To Do列表？</h3>
       
     </div>
     
@@ -440,8 +462,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -522,6 +553,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#无论如何，这介绍比我预期的还要长，就让咱们快速看看这两款app的样子："><span class="nav-number">1.</span> <span class="nav-text">无论如何，这介绍比我预期的还要长，就让咱们快速看看这两款app的样子：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何改变数据？"><span class="nav-number">2.</span> <span class="nav-text">如何改变数据？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何创建新的To-Do列表？"><span class="nav-number">3.</span> <span class="nav-text">如何创建新的To Do列表？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
